@@ -26,7 +26,7 @@ void ofApp::update(){
     
     //調節が必要なパラメータ
     
-    double w = 0.3; // 慣性の強度
+    double w = 0.5; // 慣性の強度
     double c1 = 0.8; //pbsの強度
     double c2 = 1.0; //gbsの強度
     double r1 = ofRandom(0,1);
@@ -52,6 +52,8 @@ void ofApp::update(){
             
         }
         
+        double posvec[6] = {pos[i][0], pos[i][1], pos[i][2], pos[i][3], pos[i][4], pos[i][5]};
+        canvalue[i] = evaluation(posvec);
         double pbsvec[6] = {pbs[i][0], pbs[i][1], pbs[i][2], pbs[i][3], pbs[i][4], pbs[i][5]};
         pbvalue[i] = evaluation(pbsvec);
         gbvalue = evaluation(gbs);
@@ -94,16 +96,16 @@ void ofApp::draw(){
     ofSetColor(255, 255, 255);
 
     for (int i = 0; i < 10; i++) {
-        ofDrawBitmapString("No" +ofToString(i)+ "  : " +ofToString(pos[i][0]) + " " + ofToString(pos[i][1]) + " " + ofToString(pos[i][2]) + " " + ofToString(pos[i][3]) + " " + ofToString(pos[i][4]) + " " + ofToString(pos[i][5]), -380, 380 + (-i*20));
+        ofDrawBitmapString("No" +ofToString(i)+ "  : " +ofToString(pos[i][0]) + " " + ofToString(pos[i][1]) + " " + ofToString(pos[i][2]) + " " + ofToString(pos[i][3]) + " " + ofToString(pos[i][4]) + " " + ofToString(pos[i][5]), -380, 300 + (-i*20));
     }
     
     for (int i = 10; i < theNumberOfAgent; i++) {
-        ofDrawBitmapString("No" +ofToString(i)+ " : " +ofToString(pos[i][0]) + " " + ofToString(pos[i][1]) + " " + ofToString(pos[i][2]) + " " + ofToString(pos[i][3]) + " " + ofToString(pos[i][4]) + " " + ofToString(pos[i][5]), -380, 380 + (-i*20));
+        ofDrawBitmapString("No" +ofToString(i)+ " : " +ofToString(pos[i][0]) + " " + ofToString(pos[i][1]) + " " + ofToString(pos[i][2]) + " " + ofToString(pos[i][3]) + " " + ofToString(pos[i][4]) + " " + ofToString(pos[i][5]), -380, 300 + (-i*20));
     }
     
-//    for (int i = 0; i < theNumberOfAgent; i++) {
-//        ofDrawBitmapString("Value :" + ofToString(canvalue[i]), -200, 380 + (-i*20));
-//    }
+    for (int i = 0; i < theNumberOfAgent; i++) {
+        ofDrawBitmapString("Value :" + ofToString(canvalue[i]), 200, 300 + (-i*20));
+    }
 //        
 //    ofSetColor(255, 0, 0);
 //    
@@ -126,14 +128,14 @@ void ofApp::draw(){
 //--------------------------------------------------------------
 //評価関数
 double ofApp::evaluation(double vec[6]){
-    for (int i = 0; i < theNumberOfAgent; i++) {
-        double sum = 0;
-        for (int k = 0; k < theNumberOfComponents-1; k++) {
-            sum += (100 * (vec[k+1] - (vec[k]*vec[k])) + ((1 - vec[k])*(1 - vec[k])));
-        }
-        canvalue[i] = sum;
-        return canvalue[i];
+    
+    sum = 0;
+    
+    for (int i = 0; i < theNumberOfComponents-1; i++) {
+        sum += (100 * (vec[i+1] - (vec[i]*vec[i])*(vec[i+1] - (vec[i]*vec[i])))) + ((1 - vec[i])*(1 - vec[i]));
     }
+    
+    return sum;
 }
 
 //--------------------------------------------------------------

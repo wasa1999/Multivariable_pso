@@ -37,6 +37,8 @@ public:
     double gbvalue; // whole best distance
     int t;
     double evaluation(double vec[6]); // evaluation function
+    double sum;
+    double x;
     
     
 };
