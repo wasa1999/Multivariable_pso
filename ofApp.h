@@ -25,17 +25,20 @@ public:
     
     
     static const int theNumberOfMaxTrial = 30;
-    static const int theNumberOfCandidate = 30;
-    int pos[theNumberOfCandidate][6];
-    int vel[theNumberOfCandidate][6];
-    int gbs[6] = {0,0,0,0,0,0}; // global best solution
-    int pbs[theNumberOfCandidate][6]; // local best solution
-    int newvel[theNumberOfCandidate][6];
-    int canvalue[theNumberOfCandidate]; //candidate distance
-    int pbvalue[theNumberOfCandidate]; //personel best distanse
-    int gbvalue; // whole best distance
+    static const int theNumberOfAgent = 30;
+    static const int theNumberOfComponents = 2;
+    double pos[theNumberOfAgent][theNumberOfComponents];
+    double vel[theNumberOfAgent][theNumberOfComponents];
+    double gbs[2] = {0,0}; // global best solution
+    double pbs[theNumberOfAgent][theNumberOfComponents]; // local best solution
+    double newvel[theNumberOfAgent][theNumberOfComponents];
+    double canvalue[theNumberOfAgent]; //candidate distance
+    double pbvalue[theNumberOfAgent]; //personel best distanse
+    double gbvalue; // whole best distance
     int t;
-    int evaluation(int x1, int x2, int x3, int x4, int x5, int x6); // evaluation function
+    double evaluation(double vec[2]); // evaluation function
+    double sum;
+    double x;
     
     
 };
